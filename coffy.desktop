@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Coffy
+Comment=Coffee machine plug control (Kasa EP10)
+Exec=nix run /home/manoo/Desktop/Repos/coffy-automation#default
+Icon=face-smile
+Terminal=false
+X-GNOME-Autostart-enabled=true
+StartupNotify=false
+Categories=Utility;
