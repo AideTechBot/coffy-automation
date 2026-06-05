@@ -24,11 +24,14 @@ from PyQt6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
 from tplink_cloud import CloudError, MFARequired, TPLinkCloud
 
+import os
+_CONFIG_DIR = os.path.expanduser("~/.config/coffy")
+sys.path.insert(0, _CONFIG_DIR)
 try:
     from config import PLUG_DEVICE_ID
 except ImportError:
     raise SystemExit(
-        "Missing config.py. Create it with: PLUG_DEVICE_ID = \"<your plug's deviceId>\""
+        f"Missing {_CONFIG_DIR}/config.py with: PLUG_DEVICE_ID = \"<your plug's deviceId>\""
     )
 
 SERVICE = "coffy"

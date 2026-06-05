@@ -15,6 +15,13 @@
         ps.secretstorage
         ps.jeepney
       ]);
+
+      coffyLib = pkgs: pkgs.runCommand "coffy-lib" {} ''
+        mkdir -p $out
+        cp ${./coffy.py} $out/coffy.py
+        cp ${./tplink_cloud.py} $out/tplink_cloud.py
+        cp ${./tplink-ca-chain.pem} $out/tplink-ca-chain.pem
+      '';
     in {
       devShells = forAllSystems (pkgs: {
         default = pkgs.mkShell {
@@ -24,7 +31,7 @@
 
       packages = forAllSystems (pkgs: {
         default = pkgs.writeShellScriptBin "coffy" ''
-          exec ${pythonEnv pkgs}/bin/python ${./coffy.py} "$@"
+          exec ${pythonEnv pkgs}/bin/python ${coffyLib pkgs}/coffy.py "$@"
         '';
         set-credentials = pkgs.writeShellScriptBin "coffy-set-credentials" ''
           exec ${pythonEnv pkgs}/bin/python ${./set_credentials.py} "$@"
