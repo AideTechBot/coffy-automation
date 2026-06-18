@@ -206,7 +206,7 @@ class Tray:
             self.tray.setIcon(make_icon(self.state))
             tip = "Coffee plug: disconnected"
             if isinstance(error, MFARequired):
-                tip += "\nMFA required — re-run cloud_probe.py interactively"
+                tip += "\nMFA required: disable 2FA on the TP-Link account"
             elif isinstance(error, CloudError):
                 tip += f"\n{error}"
             else:

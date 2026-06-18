@@ -207,25 +207,6 @@ class TPLinkCloud:
             raise CloudError(f"passthrough failed: {data}")
         return json.loads(data["result"]["responseData"])
 
-    async def find_device_by_mac(self, mac: str) -> dict | None:
-        norm = mac.upper().replace(":", "").replace("-", "")
-        async with aiohttp.ClientSession() as session:
-            token = await self._ensure_auth(session)
-            data = await self._post(
-                session,
-                self._host,
-                PATH_PASSTHROUGH,
-                {"method": "getDeviceList"},
-                extra_params={"token": token},
-            )
-            if data.get("error_code", -1) != 0:
-                raise CloudError(f"getDeviceList failed: {data}")
-            for d in data["result"]["deviceList"]:
-                d_mac = (d.get("deviceMac") or "").upper().replace(":", "").replace("-", "")
-                if d_mac == norm:
-                    return d
-        return None
-
     async def get_relay_state(self, device_id: str) -> bool:
         async with aiohttp.ClientSession() as session:
             resp = await self._passthrough_with_retry(
