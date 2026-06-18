@@ -52,13 +52,23 @@ HTTPS proxy capture, or temporarily add a `getDeviceList` call to
 
 ## MFA
 
-If 2FA is enabled on the TP-Link account, login will fail with
-`MFARequired` and the tray will show "disconnected". There is no MFA UI
-in this app. Turn off 2FA or rotate the refresh token in by hand:
+If 2FA is enabled on the TP-Link account, login fails with `MFARequired`
+and the tray shows "disconnected". There is no MFA UI in this app, the
+realistic fix is to turn 2FA off on the TP-Link account.
+
+If you'd rather keep 2FA on, you can sidestep the login by stashing a
+valid refresh token directly in the wallet. The app reads it from the
+Secret Service under `service=coffy`, `username=tplink_refresh_token`,
+so:
 
 ```sh
 secret-tool store --label="coffy refresh" service coffy username tplink_refresh_token
+# then paste the refresh token at the prompt
 ```
+
+You have to source the token yourself (e.g. from an HTTPS proxy capture
+of the Kasa app's `/api/v2/account/login` response). This app has no
+way to mint one when 2FA is on.
 
 ## Autostart
 
